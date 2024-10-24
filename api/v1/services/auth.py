@@ -26,9 +26,9 @@ def register(db: Session, schema: auth_schema.RegisterRequest) -> User:
         )
 
     # Hash password
-    schema.password = password_utils.hash_password(password=schema.password)
+    password_hash = password_utils.hash_password(password=schema.password)
 
-    user = User(**schema.model_dump())
+    user = User(username=schema.username, password_hash=password_hash)
 
     db.add(user)
     db.commit()
@@ -57,7 +57,7 @@ def authenticate(db: Session, schema: auth_schema.LoginRequest) -> User:
             detail="invalid username",
         )
 
-    if not password_utils.verify_password(schema.password, user.password):
+    if not password_utils.verify_password(schema.password, user.password_hash):
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST,
             detail=response_messages.INVALID_PASSWORD,

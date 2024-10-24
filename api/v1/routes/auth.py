@@ -122,4 +122,4 @@ def greet(current_user: Annotated[User, Depends(get_current_user)]):
         current_user (Annotated[User, Depends): The currently logged in user
     """
 
-    return {"greeting": f"Hello, {current_user.first_name}!"}
+    return {"greeting": f"Hello, {current_user.username}!"}
