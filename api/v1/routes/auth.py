@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Depends, status, Request, HTTPException
+from fastapi import APIRouter, Depends, status
 from sqlalchemy.orm import Session
 from typing import Annotated
 
@@ -6,7 +6,6 @@ from api.core import response_messages
 from api.db.database import get_db
 from api.utils import jwt_helpers
 from api.core.dependencies.security import get_current_user
-from api.core.config import settings
 from api.v1.schemas import auth as auth_schema
 from api.v1.services import auth as auth_service
 from api.v1.models import User
@@ -38,10 +37,12 @@ def register(
     user = auth_service.register(db=db, schema=schema)
 
     # Create access and refresh tokens
-    access_token = jwt_helpers.create_jwt_token("access", user.id)
-    refresh_token = jwt_helpers.create_jwt_token("refresh", user.id)
+    access_token = jwt_helpers.create_jwt_token("access", str(user.id))
+    refresh_token = jwt_helpers.create_jwt_token("refresh", str(user.id))
 
-    response_data = auth_schema.AuthResponseData(id=user.id, username=user.username)
+    response_data = auth_schema.AuthResponseData(
+        id=str(user.id), username=str(user.username)
+    )
 
     return auth_schema.AuthResponse(
         status_code=status.HTTP_201_CREATED,
@@ -74,10 +75,12 @@ def login(
     user = auth_service.authenticate(db=db, schema=schema)
 
     # Create access and refresh tokens
-    access_token = jwt_helpers.create_jwt_token("access", user.id)
-    refresh_token = jwt_helpers.create_jwt_token("refresh", user.id)
+    access_token = jwt_helpers.create_jwt_token("access", str(user.id))
+    refresh_token = jwt_helpers.create_jwt_token("refresh", str(user.id))
 
-    response_data = auth_schema.AuthResponseData(id=user.id, username=user.username)
+    response_data = auth_schema.AuthResponseData(
+        id=str(user.id), username=str(user.username)
+    )
 
     return auth_schema.AuthResponse(
         status_code=status.HTTP_201_CREATED,
