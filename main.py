@@ -20,7 +20,7 @@ async def lifespan(app: FastAPI):
     yield
 
 
-app = FastAPI(lifespan=lifespan, title="Boilerplate")
+app = FastAPI(lifespan=lifespan, title="Asciifire")
 
 # In-memory request counter by endpoint and IP address
 request_counter = defaultdict(lambda: defaultdict(int))
