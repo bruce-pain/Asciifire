@@ -1,15 +1,11 @@
 #!/usr/bin/env python3
-""" This is the Base Model Class
-"""
+"""This is the Base Model Class"""
+
 from uuid_extensions import uuid7
 from fastapi import Depends
 from api.db.database import Base
-from sqlalchemy import (
-    Column,
-    String,
-    DateTime,
-    func
-)
+from sqlalchemy import Column, String, DateTime, func
+
 
 class BaseTableModel(Base):
     """This model creates helper methods for all models"""
