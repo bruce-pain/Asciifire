@@ -65,7 +65,7 @@ app.add_middleware(
 
 
 @app.get("/", tags=["Home"])
-async def get_root(request: Request) -> dict:
+async def get_root(request: Request) -> JSONResponse:
     return JSONResponse(
         status_code=status.HTTP_200_OK,
         content={"URL": "", "message": "Welcome to the boilerplate API"},
