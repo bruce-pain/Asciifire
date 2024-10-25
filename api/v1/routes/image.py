@@ -1,4 +1,5 @@
 from fastapi import APIRouter, status, UploadFile, Query, HTTPException
+from typing import Optional
 
 from api.utils import image_utils
 from api.v1.services import converter
@@ -16,11 +17,11 @@ image_router = APIRouter(prefix="/image", tags=["Ascii Generator"])
     tags=["Ascii Generator"],
 )
 async def upload(
-    image_file: UploadFile,
+    file: UploadFile,
     width: int = Query(default=150),
     character_set: str = Query(default="basic"),
 ):
-    image_file = image_utils.file_validation(image_file)
+    image_file: Optional[UploadFile] = image_utils.file_validation(file)
 
     if not image_file:
         raise HTTPException(
