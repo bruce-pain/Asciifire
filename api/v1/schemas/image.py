@@ -1,6 +1,6 @@
-from pydantic import BaseModel
+from typing import Optional
 from api.v1.schemas.base_schema import BaseResponseModel
 
 
-class AsciiResultResponse(BaseResponseModel):
-    result: str
+class AsciiTaskStartResponse(BaseResponseModel):
+    task_id: Optional[str]
