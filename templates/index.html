@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta http-equiv='cache-control' content='no-cache'>
+	<meta http-equiv='expires' content='0'>
+	<meta http-equiv='pragma' content='no-cache'>
+	<title>Asciifire</title>
+	<link href="static/style.css?v=0.21" rel="stylesheet">
+</head>
+
+<body>
+	<div class="main-container">
+		<div class="hero">
+			<div class="heading">
+				<h1>Asciifire</h1>
+				<h3>Generate ASCII art from any picture</h3>
+				<p>The following image formats are supported: PNG, JPG, JPEG, WEBP</p>
+			</div>
+			<form id="uploadForm">
+				<div class="image-form">
+					<input type="file" id="fileInput" name="file">
+					<div class="options">
+						<div class="char-select">
+							<label for="charSetSelect">Choose a Character Set:</label>
+							<select id="charSetSelect" name="charSet">
+								<option value="basic">Basic</option>
+								<option value="detailed">Detailed</option>
+								<option value="block">Blocks</option>
+								<option value="smooth">Smooth</option>
+								<option value="geometric">Geometric</option>
+							</select>
+						</div>
+						<div class="contrast">
+							<label for="contrastRangeInput">Contrast:</label>
+							<input type="range" id="contrastRangeInput" min="0" max="2" value="1" step="0.1">
+							<span id="contrastRangeValue">1</span>
+						</div>
+						<div class="char-per-line">
+							<label for="cplRangeInput">Characters per line:</label>
+							<input type="range" id="cplRangeInput" min="10" max="400" value="200" step="10">
+							<span id="cplRangeValue">400</span>
+						</div>
+						<div class="color-toggle">
+							<label for="addColor">
+								Colored output <input type="checkbox" id="addColor"
+									name="addColor">
+							</label>
+						</div>
+					</div>
+					<button type="submit">Generate</button>
+				</div>
+			</form>
+			<div class="status-bar" id="status-bar"></div>
+		</div>
+		<div id="display" class="display">
+			<pre id="asciiOutput" class="preview"></pre>
+		</div>
+		<!-- Download link (hidden initially) -->
+		<a id="downloadLink" href="" download="picture-txt.png" style="display:none;">Download ASCII Image</a>
+		<div class="footer">
+			<p>Built by Franklin</p>
+			<p>Twitter: <a href="https://x.com/builtbyfranklin">@builtbyfranklin</a></p>
+		</div>
+	</div>
+	<script src="/static/main.js?v=0.21"></script>
+</body>
+
+</html>

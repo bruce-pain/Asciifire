@@ -1,4 +1,6 @@
+from starlette.templating import _TemplateResponse
 import uvicorn
+import os
 from collections import defaultdict
 from contextlib import asynccontextmanager
 from fastapi import FastAPI, status
@@ -6,6 +8,8 @@ from fastapi import HTTPException, Request
 from fastapi.exceptions import RequestValidationError
 from fastapi.responses import JSONResponse
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.templating import Jinja2Templates
+from fastapi.staticfiles import StaticFiles
 from sqlalchemy.exc import IntegrityError
 from starlette.middleware.sessions import SessionMiddleware
 from starlette.middleware.base import BaseHTTPMiddleware
@@ -21,6 +25,11 @@ async def lifespan(app: FastAPI):
 
 
 app = FastAPI(lifespan=lifespan, title="Asciifire")
+templates = Jinja2Templates(directory="templates")
+
+STATIC_DIR = "static"
+os.makedirs(STATIC_DIR, exist_ok=True)
+app.mount("/static", StaticFiles(directory="static"), name="static")
 
 # In-memory request counter by endpoint and IP address
 request_counter = defaultdict(lambda: defaultdict(int))
@@ -64,12 +73,9 @@ app.add_middleware(
 )
 
 
-@app.get("/", tags=["Home"])
-async def get_root(request: Request) -> JSONResponse:
-    return JSONResponse(
-        status_code=status.HTTP_200_OK,
-        content={"URL": "", "message": "Welcome to the boilerplate API"},
-    )
+@app.get("/", tags=["Home"], status_code=status.HTTP_200_OK)
+async def get_root(request: Request) -> _TemplateResponse:
+    return templates.TemplateResponse("index.html", {"request": request})
 
 
 @app.get("/probe", tags=["Home"])
