@@ -25,6 +25,7 @@ async def upload(
     file: UploadFile,
     width: int = Query(default=150),
     character_set: str = Query(default="basic"),
+    is_colored: bool = Query(default=False),
 ):
     image_file: Optional[UploadFile] = image_utils.file_validation(file)
 
@@ -36,7 +37,9 @@ async def upload(
 
     file_bytes = await image_file.read()
 
-    task: AsyncResult = ascii_generator_task.delay(file_bytes, character_set, width)
+    task: AsyncResult = ascii_generator_task.delay(
+        file_bytes, character_set, width, is_colored
+    )
 
     return image_schema.AsciiTaskStartResponse(
         task_id=str(task.id),

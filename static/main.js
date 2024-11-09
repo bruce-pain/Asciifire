@@ -42,7 +42,7 @@ document.getElementById('uploadForm').addEventListener('submit', async function(
 		formData.append('file', fileInput.files[0]);
 
 		try {
-			const response = await fetch(`api/v1/image/upload?width=${characterPerLine.value}&character_set=${selectedCharSet}`, {
+			const response = await fetch(`api/v1/image/upload?width=${characterPerLine.value}&character_set=${selectedCharSet}&is_colored=${addColor}`, {
 				method: 'POST',
 				body: formData
 			});
